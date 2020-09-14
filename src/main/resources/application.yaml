@@ -1,0 +1,61 @@
+zuul:
+  routes:
+    mec-developer: /mec-developer/**
+    mec-appstore: /mec-appstore/**
+  sensitive-headers:
+
+# disable netflix eurkea since it's not used for service discovery
+ribbon:
+  eureka:
+    enabled: false
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+  IsSecure: ${IS_SECURE_BACKEND:false}
+
+server:
+  port: 8443
+  ssl:
+    enabled: ${SSL_ENABLED:false}
+    protocol: TLS
+    enabled-protocols: [TLSv1.2]
+    ciphers: [TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+              TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384]
+    key-store: ${SSL_KEY_STORE_PATH:}
+    key-store-password: ${SSL_KEY_STORE_PASSWORD:}
+    key-store-type: ${SSL_KEY_STORE_TYPE:}
+    key-alias: ${SSL_KEY_ALIAS:}
+  servlet:
+    session:
+      timeout: 1800
+      cookie:
+        name: ${COOKIE_NAME:JSESSIONID}
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+APPLICATION_ID: edgegallery
+service_description:
+  # name of the declaring microservice
+  name: ${CLIENT_ID:website-gateway}
+  version: 0.9.0
+  environment: development
+servicecomb:
+  service:
+    registry:
+      address: ${SC_ADDRESS:}
+
+security:
+  oauth2:
+    sso:
+      login-path: /login
+    client:
+      client-id: ${CLIENT_ID:}
+      client-secret: ${CLIENT_SECRET:}
+      user-authorization-uri: ${AUTH_SERVER_ADDRESS:}/oauth/authorize
+      access-token-uri: ${AUTH_SERVER_ADDRESS:}/oauth/token
+    resource:
+      jwt:
+        key-uri: ${AUTH_SERVER_ADDRESS:}/oauth/token_key
