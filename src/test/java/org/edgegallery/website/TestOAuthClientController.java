@@ -99,7 +99,7 @@ public class TestOAuthClientController {
 
     @Test
     public void should_successfully_when_logout() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.post("/auth/logout").contentType(MediaType.APPLICATION_JSON_VALUE)
+        mvc.perform(MockMvcRequestBuilders.get("/auth/logout").contentType(MediaType.APPLICATION_JSON_VALUE)
             .header("ssoSessionId", "test_sso_session_id")
             .accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(MockMvcResultMatchers.status().isOk());
     }
