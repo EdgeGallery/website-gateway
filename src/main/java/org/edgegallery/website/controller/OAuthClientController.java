@@ -72,8 +72,7 @@ public class OAuthClientController {
     /**
      * logout.
      */
-    @RequestMapping(value = "/logout", method = RequestMethod.POST, consumes = "application/json",
-        produces = "application/json")
+    @RequestMapping(value = "/logout", method = RequestMethod.GET, produces = "application/json")
     @ApiOperation(value = "logout", response = String.class, notes = "Logout by global sessionId")
     public ResponseEntity<String> logout(HttpServletRequest request) {
         String ssoSessionId = request.getParameter("ssoSessionId");
