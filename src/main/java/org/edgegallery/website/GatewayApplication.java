@@ -52,7 +52,7 @@ public class GatewayApplication {
      * httpClient.
      */
     @Bean
-    public HttpClient httpClient() throws Exception {
+    public HttpClient httpClient() throws NoSuchAlgorithmException, KeyManagementException {
         SSLConnectionSocketFactory sslConnectionSocketFactory = new SSLConnectionSocketFactory(getSslContext(),
             NoopHostnameVerifier.INSTANCE);
         return HttpClients.custom().setSSLSocketFactory(sslConnectionSocketFactory).build();
