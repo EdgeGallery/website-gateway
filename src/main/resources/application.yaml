@@ -24,6 +24,8 @@ server:
     key-store-password: ${SSL_KEY_STORE_PASSWORD:}
     key-store-type: ${SSL_KEY_STORE_TYPE:}
     key-alias: ${SSL_KEY_ALIAS:}
+  tomcat:
+    max-threads: 500
   servlet:
     session:
       timeout: 1800
