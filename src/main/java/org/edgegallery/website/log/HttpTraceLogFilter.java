@@ -101,9 +101,9 @@ public class HttpTraceLogFilter extends OncePerRequestFilter implements Ordered 
             ip = request.getRemoteAddr();
         }
         // the first IP is the real IP
-        // if (!StringUtils.isEmpty(ip) && ip.indexOf(",") > 0) {
-        //     ip = ip.substring(0, ip.indexOf(","));
-        // }
+        if (!StringUtils.isEmpty(ip) && ip.indexOf(",") > 0) {
+            ip = ip.substring(0, ip.indexOf(","));
+        }
         return ip;
     }
 
