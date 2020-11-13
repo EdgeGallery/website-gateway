@@ -2,6 +2,7 @@ zuul:
   routes:
     mec-developer: /mec-developer/**
     mec-appstore: /mec-appstore/**
+    mec-atp: /mec-atp/**
   sensitive-headers:
 
 # disable netflix eurkea since it's not used for service discovery
