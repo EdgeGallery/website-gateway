@@ -37,7 +37,6 @@
         <spring-security-oauth2-autoconfigure.version>2.2.2.RELEASE</spring-security-oauth2-autoconfigure.version>
         <tomcat.embed.version>9.0.37</tomcat.embed.version>
     </properties>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
