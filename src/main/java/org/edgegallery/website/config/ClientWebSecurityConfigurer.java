@@ -16,8 +16,6 @@
 
 package org.edgegallery.website.config;
 
-import com.netflix.zuul.ZuulFilter;
-import com.netflix.zuul.context.RequestContext;
 import java.io.IOException;
 import java.util.Map;
 import javax.servlet.ServletContext;
@@ -47,6 +45,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import com.netflix.zuul.ZuulFilter;
+import com.netflix.zuul.context.RequestContext;
 
 @Configuration
 @EnableWebSecurity
@@ -76,6 +76,7 @@ public class ClientWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(final HttpSecurity http) throws Exception {
+        http.headers().frameOptions().disable();
         http.authorizeRequests().antMatchers("/login", "/auth/logout").permitAll()
             .antMatchers(HttpMethod.GET, "/health")
             .permitAll()
