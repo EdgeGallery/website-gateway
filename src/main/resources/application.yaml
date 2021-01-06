@@ -27,7 +27,7 @@ server:
     key-alias: ${SSL_KEY_ALIAS:}
   servlet:
     session:
-      timeout: 1800
+      timeout: 3600
       cookie:
         name: ${COOKIE_NAME:JSESSIONID}
 
@@ -41,7 +41,7 @@ APPLICATION_ID: edgegallery
 service_description:
   # name of the declaring microservice
   name: ${CLIENT_ID:website-gateway}
-  version: 0.9.0
+  version: 1.0.0
   environment: development
 servicecomb:
   service:
