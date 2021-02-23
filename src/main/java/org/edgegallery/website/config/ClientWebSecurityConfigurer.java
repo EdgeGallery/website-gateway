@@ -79,7 +79,7 @@ public class ClientWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
         http.authorizeRequests().antMatchers("/login", "/auth/logout").permitAll()
             .antMatchers(HttpMethod.GET, "/health")
-            .permitAll()
+            .permitAll().antMatchers("/webssh").permitAll()
             .anyRequest()
             .authenticated().and()
             .addFilterBefore(oauth2ClientAuthenticationProcessingFilter(), BasicAuthenticationFilter.class).logout()
