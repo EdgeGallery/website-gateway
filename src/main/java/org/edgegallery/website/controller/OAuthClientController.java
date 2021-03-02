@@ -64,7 +64,8 @@ public class OAuthClientController {
         loginInfoRespDto.setAccessToken(details.getTokenValue());
         loginInfoRespDto.setIsSecureBackend(isSecureBackend);
         loginInfoRespDto.setUserName(additionalInformation.get("userName"));
-        loginInfoRespDto.setLoginPage(authServerAddress + "/index.html?enable_sms=" + additionalInformation.get("enableSms"));
+        loginInfoRespDto.setLoginPage(authServerAddress + "/index.html?enable_sms=" + additionalInformation.get("enableSms")
+            + "&enable_mail=" + additionalInformation.get("enableMail"));
         loginInfoRespDto.setAuthorities(additionalInformation.get("authorities"));
         return new ResponseEntity<>(loginInfoRespDto, HttpStatus.OK);
     }
