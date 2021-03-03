@@ -3,6 +3,7 @@ zuul:
     mec-developer: /mec-developer/**
     mec-appstore: /mec-appstore/**
     mec-atp: /mec-atp/**
+    mec-lab: /mec-lab/**
   sensitive-headers:
 
 # disable netflix eurkea since it's not used for service discovery
@@ -34,8 +35,9 @@ server:
 spring:
   servlet:
     multipart:
-      max-file-size: 20MB
-      max-request-size: 20MB
+      file-size-threshold: 1MB
+      max-file-size: -1
+      max-request-size: -1
 
 APPLICATION_ID: edgegallery
 service_description:
