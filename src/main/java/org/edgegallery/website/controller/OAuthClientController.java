@@ -66,6 +66,7 @@ public class OAuthClientController {
         loginInfoRespDto.setUserName(additionalInformation.get("userName"));
         loginInfoRespDto.setLoginPage(authServerAddress + "/index.html?enable_sms=" + additionalInformation.get("enableSms")
             + "&enable_mail=" + additionalInformation.get("enableMail"));
+        loginInfoRespDto.setUserCenterPage(authServerAddress + "/index.html#/usermgmt/center");
         loginInfoRespDto.setAuthorities(additionalInformation.get("authorities"));
         return new ResponseEntity<>(loginInfoRespDto, HttpStatus.OK);
     }
