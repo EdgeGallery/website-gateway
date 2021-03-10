@@ -30,6 +30,8 @@ public class LoginInfoRespDto {
 
     private Object loginPage;
 
+    private Object userCenterPage;
+
     private Object accessToken;
 
     private Object authorities;
