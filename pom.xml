@@ -385,7 +385,7 @@
                 <configuration>
                     <failOnViolation>false</failOnViolation>
                     <violationSeverity>warning</violationSeverity>
-                    <configLocation>https://raw.githubusercontent.com/EdgeGallery/infra/master/configs/edgegallery_checks.xml</configLocation>
+                    <configLocation>https://raw.githubusercontent.com/EdgeGallery/docs/master/code-check-configs/edgegallery_checks.xml</configLocation>
                 </configuration>
                 <executions>
                     <execution>
@@ -451,7 +451,7 @@
                 <configuration>
                     <failOnViolation>false</failOnViolation>
                     <violationSeverity>warning</violationSeverity>
-                    <configLocation>https://raw.githubusercontent.com/EdgeGallery/infra/master/configs/edgegallery_checks.xml</configLocation>
+                    <configLocation>https://raw.githubusercontent.com/EdgeGallery/docs/master/code-check-configs/edgegallery_checks.xml</configLocation>
                 </configuration>
             </plugin>
             <plugin>
