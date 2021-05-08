@@ -19,6 +19,9 @@ zuul:
     mec-appstore: /mec-appstore/**
     mec-atp: /mec-atp/**
     mec-lab: /mec-lab/**
+    mecm-inventory: /mecm-inventory/**
+    mecm-appo: /mecm-appo/**
+    mecm-apm: /mecm-apm/**
   sensitive-headers:
 
 # disable netflix eurkea since it's not used for service discovery
