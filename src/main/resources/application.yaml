@@ -80,3 +80,6 @@ security:
     resource:
       jwt:
         key-uri: ${AUTH_SERVER_ADDRESS:}/oauth/token_key
+### gateway config ###
+website-gateway:
+  res-path: /usr/app/resources
