@@ -16,6 +16,7 @@
 
 package org.edgegallery.website.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.FileInputStream;
@@ -27,7 +28,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.extern.slf4j.Slf4j;
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -65,8 +65,7 @@ public class ResInfoService {
      *
      */
     public void parseFile(String filePath, Map<String, Properties> local2Properties, String lan) {
-        try {
-            InputStreamReader in = new InputStreamReader(new FileInputStream(filePath), StandardCharsets.UTF_8);
+        try (InputStreamReader in = new InputStreamReader(new FileInputStream(filePath), StandardCharsets.UTF_8);) {
             Properties properties = new Properties();
             properties.load(in);
             local2Properties.computeIfAbsent(lan, key -> new Properties()).putAll(properties);
