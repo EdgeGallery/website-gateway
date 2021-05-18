@@ -26,6 +26,8 @@ EXPOSE 8080
 # Set umask
 RUN sed -i "s|umask 022|umask 027|g" /etc/profile &&\
     mkdir -p -m 750 $APP_HOME &&\
+    mkdir -p -m 550 $APP_HOME/resources &&\
+    mkdir -p -m 550 /usr/app/resources/i18n &&\
     apk update &&\
     apk add shadow &&\
     groupadd -r -g $GID $GROUP_NAME &&\
@@ -33,6 +35,7 @@ RUN sed -i "s|umask 022|umask 027|g" /etc/profile &&\
     chown -R $USER_NAME:$GROUP_NAME $APP_HOME
 
 COPY --chown=$USER_NAME:$GROUP_NAME target/*.jar $APP_HOME/
+COPY --chown=$USER_NAME:$GROUP_NAME target/classes/i18n /usr/app/resources/i18n
 
 WORKDIR $APP_HOME
 
