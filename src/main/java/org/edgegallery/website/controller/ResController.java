@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestSchema(schemaId = "res")
-@RequestMapping("/mec/res")
+@RequestMapping("/mec/res/v1")
 @Controller
 public class ResController {
     @Autowired
@@ -38,7 +38,7 @@ public class ResController {
      * get error info from properties.
      *
      */
-    @GetMapping(value = "/errInfo", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/error-info", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "get error resource", response = String.class)
     public ResponseEntity<String> getErrInfo(@RequestParam("modules") String modules) {
         return resInfoService.getErrInfo(modules);
