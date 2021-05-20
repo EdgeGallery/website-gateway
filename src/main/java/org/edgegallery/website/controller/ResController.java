@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestSchema(schemaId = "res")
-@RequestMapping("/mec/res/v1")
+@RequestMapping("/mec/res/v2")
 @Controller
 public class ResController {
     @Autowired
