@@ -67,6 +67,9 @@ public class OAuthClientController {
         loginInfoRespDto.setLoginPage(authServerAddress + "/index.html?enable_sms=" + additionalInformation.get("enableSms")
             + "&enable_mail=" + additionalInformation.get("enableMail"));
         loginInfoRespDto.setUserCenterPage(authServerAddress + "/index.html#/usermgmt/center");
+        if (additionalInformation.containsKey("pwmodiscene")) {
+            loginInfoRespDto.setForceModifyPwPage(authServerAddress + "/index.html#/usermgmt/forcemodifypwd");
+        }
         loginInfoRespDto.setAuthorities(additionalInformation.get("authorities"));
         return new ResponseEntity<>(loginInfoRespDto, HttpStatus.OK);
     }
