@@ -32,6 +32,8 @@ public class LoginInfoRespDto {
 
     private Object userCenterPage;
 
+    private Object forceModifyPwPage;
+
     private Object accessToken;
 
     private Object authorities;
