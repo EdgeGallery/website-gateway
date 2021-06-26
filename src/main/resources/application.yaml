@@ -56,6 +56,9 @@ spring:
       file-size-threshold: 1MB
       max-file-size: 10MB
       max-request-size: 10MB
+  mvc:
+    async:
+      request-timeout: 1800000
 
 APPLICATION_ID: edgegallery
 service_description:
@@ -67,6 +70,11 @@ servicecomb:
   service:
     registry:
       address: ${SC_ADDRESS:}
+  rest:
+    server:
+      timeout: 1800000
+  request:
+    timeout: 1800000
 
 security:
   oauth2:
