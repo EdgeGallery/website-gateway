@@ -28,8 +28,8 @@ zuul:
 ribbon:
   eureka:
     enabled: false
-  ReadTimeout: 60000
-  ConnectTimeout: 60000
+  ReadTimeout: 1800000
+  ConnectTimeout: 1800000
   IsSecure: ${IS_SECURE_BACKEND:false}
 
 server:
