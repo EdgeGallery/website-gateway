@@ -78,6 +78,8 @@ public class ClientWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     public void configure(final HttpSecurity http) throws Exception {
         http.headers().frameOptions().disable();
         http.authorizeRequests().antMatchers("/login", "/auth/logout").permitAll()
+            // this api will be used by health-check service, so permit all roles to get mec host list in v1.2
+            .antMatchers(HttpMethod.GET, "/mecm-inventory/inventory/v1/mechosts").permitAll()
             .antMatchers(HttpMethod.GET, "/health")
             .permitAll().antMatchers("/webssh").permitAll()
             .anyRequest()
