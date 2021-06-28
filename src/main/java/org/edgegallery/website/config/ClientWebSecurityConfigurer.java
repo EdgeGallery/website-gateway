@@ -43,6 +43,7 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import com.netflix.zuul.ZuulFilter;
@@ -136,6 +137,9 @@ public class ClientWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
             @Override
             public Object run() {
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                if(!(authentication instanceof  OAuth2AuthenticationDetails)) {
+                    return null;
+                }
                 OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) authentication.getDetails();
                 String accessToken = details.getTokenValue();
                 RequestContext ctx = RequestContext.getCurrentContext();
