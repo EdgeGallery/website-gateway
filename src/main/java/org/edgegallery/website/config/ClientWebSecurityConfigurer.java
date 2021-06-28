@@ -136,6 +136,9 @@ public class ClientWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
             @Override
             public Object run() {
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                if(!(authentication instanceof  OAuth2AuthenticationDetails)) {
+                    return null;
+                }
                 OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) authentication.getDetails();
                 String accessToken = details.getTokenValue();
                 RequestContext ctx = RequestContext.getCurrentContext();
