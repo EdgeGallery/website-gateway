@@ -23,6 +23,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
@@ -53,6 +55,7 @@ import com.netflix.zuul.context.RequestContext;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableOAuth2Sso
 public class ClientWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientWebSecurityConfigurer.class);
 
     @Value("${AUTH_SERVER_ADDRESS}")
     private String authServerAddress;
@@ -135,14 +138,16 @@ public class ClientWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
             @Override
             public Object run() {
-                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                if(!(authentication instanceof  OAuth2AuthenticationDetails)) {
+                try {
+                    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                    OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) authentication.getDetails();
+                    String accessToken = details.getTokenValue();
+                    RequestContext ctx = RequestContext.getCurrentContext();
+                    ctx.addZuulRequestHeader("access_token", accessToken);
+                } catch (Exception e) {
+                    LOGGER.warn("there will be a exception when permit all roles to access the api. no need to fix it.");
                     return null;
                 }
-                OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) authentication.getDetails();
-                String accessToken = details.getTokenValue();
-                RequestContext ctx = RequestContext.getCurrentContext();
-                ctx.addZuulRequestHeader("access_token", accessToken);
                 return null;
             }
         };
