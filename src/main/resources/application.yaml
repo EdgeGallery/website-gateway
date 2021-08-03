@@ -23,6 +23,18 @@ zuul:
     mecm-appo: /mecm-appo/**
     mecm-apm: /mecm-apm/**
   sensitive-headers:
+  ratelimit:
+    enabled: true
+    behind-proxy: false
+    repository: JPA
+    default-policy:
+      limit: 10  #optional - request number limit per refresh interval window
+      quota: 1000  #optional - request time limit per refresh interval window (in seconds)
+      refresh-interval: 30 #default value is 60 (in seconds)
+      type:
+        - USER
+        - URL
+        - ORIGIN
 
 # disable netflix eurkea since it's not used for service discovery
 ribbon:
@@ -33,7 +45,7 @@ ribbon:
   IsSecure: ${IS_SECURE_BACKEND:false}
 
 server:
-  port: 8443
+  port: 8080
   ssl:
     enabled: ${SSL_ENABLED:false}
     protocol: TLS
@@ -56,6 +68,11 @@ spring:
       file-size-threshold: 1MB
       max-file-size: 10MB
       max-request-size: 10MB
+  datasource:
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+    driver-class-name: org.h2.Driver
+    initialization-mode: always
+    schema: classpath:init_data.sql
 
 APPLICATION_ID: edgegallery
 service_description:
@@ -67,7 +84,6 @@ servicecomb:
   service:
     registry:
       address: ${SC_ADDRESS:}
-
 security:
   oauth2:
     sso:
