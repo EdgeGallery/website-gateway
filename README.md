@@ -30,3 +30,30 @@ security:
     - AUTH_SERVER_ADDRESS: user-mgmt服务的URL
 
 CLIENT_ID 和 CLIENT_SECRET 需要和user-mgmt服务中配置的oauth2.clients.clientId 和 oauth2.clients.clientSecret一样，不然启动会报错
+
+## Use RateLimit-zuul to limit API
+
+```yaml
+zuul:
+  routes:
+    mec-developer: /mec-developer/**
+    mec-appstore: /mec-appstore/**
+    mec-atp: /mec-atp/**
+    mec-lab: /mec-lab/**
+    mecm-inventory: /mecm-inventory/**
+    mecm-appo: /mecm-appo/**
+    mecm-apm: /mecm-apm/**
+  sensitive-headers:
+  ratelimit:
+    enabled: true
+    behind-proxy: false
+    repository: JPA
+    default-policy:
+      limit: 10  #optional - request number limit per refresh interval window
+      quota: 1000  #optional - request time limit per refresh interval window (in seconds)
+      refresh-interval: 30 #default value is 60 (in seconds)
+      type:
+        - USER
+        - URL
+        - ORIGIN
+```
