@@ -45,7 +45,7 @@ ribbon:
   IsSecure: ${IS_SECURE_BACKEND:false}
 
 server:
-  port: 8080
+  port: 8443
   ssl:
     enabled: ${SSL_ENABLED:false}
     protocol: TLS
