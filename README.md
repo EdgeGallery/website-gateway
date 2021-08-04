@@ -66,3 +66,12 @@ Response when has error:
     "message": ""
 }
 ```
+规则说明：
+  - 30秒内某个链接超过10次被访问，下次请求被拦截，并返回429错误
+  - 链接唯一性通过：username/访问端IP/访问API确定，例如：rate-limit-application:mec-developer:test123:/mec/developer/v1/projects/:127.0.0.1
+    > 1. rate-limit-application: 固定前缀
+    > 2. mec-developer: serviceId，可以是zuul.routes中定义其他服务
+    > 3. test123: 访问链接的用户名
+    > 4. /mec/developer/v1/projects/：被访问的链接地址
+    > 5. 127.0.0.1：访问来源IP
+详细信息请参考：[ratelimit-zuul 2.1.0.REALSE](https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit/tree/v2.1.0.RELEASE)
