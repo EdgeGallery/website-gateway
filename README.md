@@ -72,7 +72,7 @@ Response when has error:
     > 2. mec-developer: serviceId，可以是zuul.routes中定义其他服务
     > 3. test123: 访问链接的用户名
     > 4. /mec/developer/v1/projects/：被访问的链接地址
-    > 5. 127.0.0.1：访问来源IP
+    > 5. 127.0.0.1：访问来源IP，从request heaser的"X-Forwarded-For"中获取
   - 使用内存数据库保存中间数据
   - 更详细配置请参考：[spring-cloud-zuul-ratelimit:2.1.0.REALSE](https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit/tree/v2.1.0.RELEASE)
   
