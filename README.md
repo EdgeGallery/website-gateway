@@ -57,3 +57,12 @@ zuul:
         - URL
         - ORIGIN
 ```
+Response when has error:
+```json
+{
+    "timestamp": "2021-08-04T01:40:54.123+0000",
+    "status": 429,
+    "error": "Too Many Requests",
+    "message": ""
+}
+```
