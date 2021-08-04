@@ -74,4 +74,4 @@ Response when has error:
     > 3. test123: 访问链接的用户名
     > 4. /mec/developer/v1/projects/：被访问的链接地址
     > 5. 127.0.0.1：访问来源IP
-详细信息请参考：[ratelimit-zuul 2.1.0.REALSE](https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit/tree/v2.1.0.RELEASE)
+详细信息请参考：[spring-cloud-zuul-ratelimit:2.1.0.REALSE](https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit/tree/v2.1.0.RELEASE)
