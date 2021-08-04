@@ -27,8 +27,7 @@ security:
 ```
     - CLIENT_ID: 待启动前台服务的ID
     - CLIENT_SECRET: 待启动前台服务的密钥，这两个参数是用来注册到user-mgmt服务，用于单点登录的服务注册
-    - AUTH_SERVER_ADDRESS: user-mgmt服务的URL
-
+    - AUTH_SERVER_ADDRESS: user-mgmt服务的URL  
 CLIENT_ID 和 CLIENT_SECRET 需要和user-mgmt服务中配置的oauth2.clients.clientId 和 oauth2.clients.clientSecret一样，不然启动会报错
 
 ## Use RateLimit-zuul to limit API
