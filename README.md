@@ -27,8 +27,7 @@ security:
 ```
     - CLIENT_ID: 待启动前台服务的ID
     - CLIENT_SECRET: 待启动前台服务的密钥，这两个参数是用来注册到user-mgmt服务，用于单点登录的服务注册
-    - AUTH_SERVER_ADDRESS: user-mgmt服务的URL
-
+    - AUTH_SERVER_ADDRESS: user-mgmt服务的URL  
 CLIENT_ID 和 CLIENT_SECRET 需要和user-mgmt服务中配置的oauth2.clients.clientId 和 oauth2.clients.clientSecret一样，不然启动会报错
 
 ## Use RateLimit-zuul to limit API
@@ -57,3 +56,23 @@ zuul:
         - URL
         - ORIGIN
 ```
+Response when has error:
+```json
+{
+    "timestamp": "2021-08-04T01:40:54.123+0000",
+    "status": 429,
+    "error": "Too Many Requests",
+    "message": ""
+}
+```
+规则说明：
+  - 30秒内某个链接超过10次被访问，下次请求被拦截，并返回429错误
+  - 链接唯一性通过：username/访问端IP/访问API确定，例如：rate-limit-application:mec-developer:test123:/mec/developer/v1/projects/:127.0.0.1
+    > 1. rate-limit-application: 固定前缀
+    > 2. mec-developer: serviceId，可以是zuul.routes中定义其他服务
+    > 3. test123: 访问链接的用户名
+    > 4. /mec/developer/v1/projects/：被访问的链接地址
+    > 5. 127.0.0.1：访问来源IP，从request heaser的"X-Forwarded-For"中获取
+  - 使用内存数据库保存中间数据
+  - 更详细配置请参考：[spring-cloud-zuul-ratelimit:2.1.0.REALSE](https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit/tree/v2.1.0.RELEASE)
+  
