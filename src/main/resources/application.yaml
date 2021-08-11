@@ -28,7 +28,7 @@ zuul:
     behind-proxy: false
     repository: JPA
     default-policy:
-      limit: 10  #optional - request number limit per refresh interval window
+      limit: 100  #optional - request number limit per refresh interval window
       quota: 1000  #optional - request time limit per refresh interval window (in seconds)
       refresh-interval: 30 #default value is 60 (in seconds)
       type:
