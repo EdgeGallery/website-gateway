@@ -17,11 +17,10 @@
 package org.edgegallery.website.sessionmgr;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 import javax.servlet.http.HttpSession;
-import javax.websocket.CloseReason;
-import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
@@ -41,9 +40,11 @@ import org.springframework.util.StringUtils;
 public class WebSocketSessionServer {
     private static final Logger LOGGER = LoggerFactory.getLogger(WebSocketSessionServer.class);
 
-    private static final ConcurrentHashMap<String, List<Session>> WS_SESSION_FINDER = new ConcurrentHashMap<>();
+    private static final Map<String, List<Session>> WS_SESSION_FINDER = new HashMap<>();
 
-    private static final ConcurrentHashMap<String, String> HTTP_SESSIONID_FINDER = new ConcurrentHashMap<>();
+    private static final Map<String, String> HTTP_SESSIONID_FINDER = new HashMap<>();
+
+    private static final Object LOCK_OBJ = new Object();
 
     /**'
      * open websocket session.
@@ -59,14 +60,16 @@ public class WebSocketSessionServer {
         }
 
         LOGGER.debug("ws client opened.");
-        List<Session> wsSessList = WS_SESSION_FINDER.get(httpSessionId);
-        if (wsSessList == null) {
-            wsSessList = new ArrayList<>();
-            WS_SESSION_FINDER.put(httpSessionId, wsSessList);
-        }
+        synchronized (LOCK_OBJ) {
+            List<Session> wsSessList = WS_SESSION_FINDER.get(httpSessionId);
+            if (wsSessList == null) {
+                wsSessList = new ArrayList<>();
+                WS_SESSION_FINDER.put(httpSessionId, wsSessList);
+            }
 
-        wsSessList.add(wsSession);
-        HTTP_SESSIONID_FINDER.put(wsSession.getId(), httpSessionId);
+            wsSessList.add(wsSession);
+            HTTP_SESSIONID_FINDER.put(wsSession.getId(), httpSessionId);
+        }
     }
 
     /**
@@ -78,24 +81,16 @@ public class WebSocketSessionServer {
     @OnMessage
     public void onMessage(String message, Session wsSession) {
         LOGGER.debug("receive message from ws client");
-        String httpSessId = HTTP_SESSIONID_FINDER.get(wsSession.getId());
-        HttpSession httpSession = CustomHttpSessionManager.getInstance().getSession(httpSessId);
-        if (httpSession != null) {
-            if ((System.currentTimeMillis() - httpSession.getLastAccessedTime()) / 1000
-                > Consts.HTTP_SESSION_TIMEOUT - Consts.ADV_NOTIFY_TIME_FOR_HTTP_SESSION_TIMEOUT) {
-                notifyHttpSessionInvalid(httpSessId, Consts.HttpSessionInvalidScene.TIMEOUT);
+        synchronized (LOCK_OBJ) {
+            String httpSessId = HTTP_SESSIONID_FINDER.get(wsSession.getId());
+            HttpSession httpSession = CustomHttpSessionManager.getInstance().getSession(httpSessId);
+            if (httpSession != null) {
+                if ((System.currentTimeMillis() - httpSession.getLastAccessedTime()) / 1000
+                    > Consts.HTTP_SESSION_TIMEOUT - Consts.ADV_NOTIFY_TIME_FOR_HTTP_SESSION_TIMEOUT) {
+                    notifyHttpSessionInvalid(httpSessId, Consts.HttpSessionInvalidScene.TIMEOUT);
+                }
             }
         }
-    }
-
-    /**
-     * websocket session closed.
-     *
-     * @param reason closed reason
-     */
-    @OnClose
-    public void onClose(CloseReason reason) {
-        LOGGER.debug("ws session closed");
     }
 
     /**
@@ -105,19 +100,21 @@ public class WebSocketSessionServer {
      * @param invalidScene Session invalidation scene
      */
     public static void notifyHttpSessionInvalid(String httpSessionId, int invalidScene) {
-        List<Session> wsSessList = WS_SESSION_FINDER.get(httpSessionId);
-        if (wsSessList == null) {
-            return;
-        }
-        wsSessList.forEach(wsSession -> {
-            LOGGER.info("notify http session timeout. wsId = {}", wsSession.getId());
-            try {
-                wsSession.getBasicRemote().sendText(String.valueOf(invalidScene));
-            } catch (Exception e) {
-                LOGGER.error("notify failed: {}", e.getMessage());
+        synchronized (LOCK_OBJ) {
+            List<Session> wsSessList = WS_SESSION_FINDER.get(httpSessionId);
+            if (wsSessList == null) {
+                return;
             }
-            HTTP_SESSIONID_FINDER.remove(wsSession.getId());
-        });
-        WS_SESSION_FINDER.remove(httpSessionId);
+            wsSessList.forEach(wsSession -> {
+                LOGGER.info("notify http session timeout. wsId = {}", wsSession.getId());
+                try {
+                    wsSession.getBasicRemote().sendText(String.valueOf(invalidScene));
+                } catch (Exception e) {
+                    LOGGER.error("notify failed: {}", e.getMessage());
+                }
+                HTTP_SESSIONID_FINDER.remove(wsSession.getId());
+            });
+            WS_SESSION_FINDER.remove(httpSessionId);
+        }
     }
 }
