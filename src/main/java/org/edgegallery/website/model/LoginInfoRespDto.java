@@ -37,4 +37,6 @@ public class LoginInfoRespDto {
     private Object accessToken;
 
     private Object authorities;
+
+    private Object sessId;
 }
