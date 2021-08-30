@@ -55,7 +55,7 @@ public class OAuthClientController {
     @RequestMapping(value = "/login-info", method = RequestMethod.GET, produces = "application/json")
     @ApiOperation(value = "get user information", response = LoginInfoRespDto.class,
         notes = "The API can " + "receive the get user information request")
-    public ResponseEntity<LoginInfoRespDto> getLoginInfo() {
+    public ResponseEntity<LoginInfoRespDto> getLoginInfo(HttpServletRequest request) {
         OAuth2AuthenticationDetails details = jwtServer.getAuthDetails();
         Map<String, Object> additionalInformation = jwtServer.getToken(details.getTokenValue())
             .getAdditionalInformation();
@@ -71,6 +71,7 @@ public class OAuthClientController {
             loginInfoRespDto.setForceModifyPwPage(authServerAddress + "/index.html#/usermgmt/forcemodifypwd");
         }
         loginInfoRespDto.setAuthorities(additionalInformation.get("authorities"));
+        loginInfoRespDto.setSessId(request.getSession().getId());
         return new ResponseEntity<>(loginInfoRespDto, HttpStatus.OK);
     }
 
@@ -86,7 +87,7 @@ public class OAuthClientController {
             try {
                 session.invalidate();
             } catch (IllegalStateException e) {
-                log.info("The session {} already invalid.", session.getId());
+                log.info("The session already invalid.");
             }
             servletContext.removeAttribute(ssoSessionId);
         }

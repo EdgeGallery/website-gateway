@@ -1,5 +1,5 @@
 /*
- *    Copyright 2020 Huawei Technologies Co., Ltd.
+ *    Copyright 2020-2021 Huawei Technologies Co., Ltd.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
 
 package org.edgegallery.website.config;
 
+import com.netflix.zuul.ZuulFilter;
+import com.netflix.zuul.context.RequestContext;
 import java.io.IOException;
 import java.util.Map;
 import javax.servlet.ServletContext;
@@ -23,6 +25,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.edgegallery.website.common.Consts;
+import org.edgegallery.website.sessionmgr.WebSocketSessionServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,10 +49,10 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import com.netflix.zuul.ZuulFilter;
-import com.netflix.zuul.context.RequestContext;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 @Configuration
 @EnableWebSecurity
@@ -85,9 +89,20 @@ public class ClientWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.GET, "/mecm-inventory/inventory/v1/mechosts").permitAll()
             .antMatchers(HttpMethod.GET, "/health")
             .permitAll().antMatchers("/webssh").permitAll()
+            .antMatchers("/wsserver/**").permitAll()
             .anyRequest()
             .authenticated().and()
             .addFilterBefore(oauth2ClientAuthenticationProcessingFilter(), BasicAuthenticationFilter.class).logout()
+            .addLogoutHandler(new LogoutHandler() {
+                @Override
+                public void logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+                    Authentication authentication) {
+                    HttpSession httpSession = httpServletRequest.getSession();
+                    if (httpSession != null) {
+                        WebSocketSessionServer.notifyHttpSessionInvalid(httpSession.getId(), Consts.HttpSessionInvalidScene.LOGOUT);
+                    }
+                }
+            })
             .logoutUrl("/logout").logoutSuccessUrl(authServerAddress + "/auth/logout")
             .and().csrf()
             .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
@@ -151,5 +166,10 @@ public class ClientWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 return null;
             }
         };
+    }
+
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter() {
+        return new ServerEndpointExporter();
     }
 }
