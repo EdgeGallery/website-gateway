@@ -28,6 +28,7 @@ import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.servicecomb.springboot2.starter.EnableServiceComb;
+import org.edgegallery.website.sessionmgr.WebSocketSessionServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -48,6 +49,11 @@ public class GatewayApplication {
         HttpsURLConnection.setDefaultSSLSocketFactory(getSslContext().getSocketFactory());
         HttpsURLConnection.setDefaultHostnameVerifier(NoopHostnameVerifier.INSTANCE);
         SpringApplication.run(GatewayApplication.class, args);
+        Runtime.getRuntime().addShutdownHook(new Thread(GatewayApplication::applicationStop));
+    }
+
+    private static void applicationStop() {
+        WebSocketSessionServer.notifyOnApplicationStop();
     }
 
     /**
