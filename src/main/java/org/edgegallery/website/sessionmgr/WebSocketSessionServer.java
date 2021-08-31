@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.servlet.http.HttpSession;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
@@ -46,7 +47,7 @@ public class WebSocketSessionServer {
 
     private static final Object LOCK_OBJ = new Object();
 
-    /**'
+    /**
      * open websocket session.
      *
      * @param wsSession websocket session
@@ -116,5 +117,14 @@ public class WebSocketSessionServer {
             });
             WS_SESSION_FINDER.remove(httpSessionId);
         }
+    }
+
+    /**
+     * notify on application stop.
+     */
+    public static void notifyOnApplicationStop() {
+        Set<String> httpSessionIdSet = WS_SESSION_FINDER.keySet();
+        httpSessionIdSet.forEach(
+            httpSessionId -> notifyHttpSessionInvalid(httpSessionId, Consts.HttpSessionInvalidScene.SERVER_STOP));
     }
 }
