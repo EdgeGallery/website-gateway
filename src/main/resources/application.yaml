@@ -30,7 +30,7 @@ zuul:
     default-policy:
       limit: 100  #optional - request number limit per refresh interval window
       quota: 1000  #optional - request time limit per refresh interval window (in seconds)
-      refresh-interval: 30 #default value is 60 (in seconds)
+      refresh-interval: 10 #default value is 60 (in seconds)
       type:
         - USER
         - URL
