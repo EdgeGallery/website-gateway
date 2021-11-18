@@ -61,8 +61,8 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 public class ClientWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientWebSecurityConfigurer.class);
 
-    @Value("${AUTH_SERVER_ADDRESS}")
-    private String authServerAddress;
+    @Value("${AUTH_SERVER_ADDRESS_CLIENTACCESS}")
+    private String authServerAddressClientAccess;
 
     @Autowired
     private UserInfoRestTemplateFactory restTemplateFactory;
@@ -103,7 +103,7 @@ public class ClientWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                     }
                 }
             })
-            .logoutUrl("/logout").logoutSuccessUrl(authServerAddress + "/auth/logout")
+            .logoutUrl("/logout").logoutSuccessUrl(authServerAddressClientAccess + "/auth/logout")
             .and().csrf()
             .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     }

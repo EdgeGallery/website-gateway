@@ -91,7 +91,7 @@ security:
     client:
       client-id: ${CLIENT_ID:}
       client-secret: ${CLIENT_SECRET:}
-      user-authorization-uri: ${AUTH_SERVER_ADDRESS:}/oauth/authorize
+      user-authorization-uri: ${AUTH_SERVER_ADDRESS_CLIENTACCESS:}/oauth/authorize${REDIRECT_URI_PARAM:}
       access-token-uri: ${AUTH_SERVER_ADDRESS:}/oauth/token
     resource:
       jwt:
