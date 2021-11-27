@@ -43,8 +43,8 @@ public class OAuthClientController {
     @Autowired
     private ServletContext servletContext;
 
-    @Value("${AUTH_SERVER_ADDRESS}")
-    private String authServerAddress;
+    @Value("${AUTH_SERVER_ADDRESS_CLIENTACCESS}")
+    private String authServerAddressClientAccess;
 
     @Value("${IS_SECURE_BACKEND}")
     private String isSecureBackend;
@@ -64,11 +64,11 @@ public class OAuthClientController {
         loginInfoRespDto.setAccessToken(details.getTokenValue());
         loginInfoRespDto.setIsSecureBackend(isSecureBackend);
         loginInfoRespDto.setUserName(additionalInformation.get("userName"));
-        loginInfoRespDto.setLoginPage(authServerAddress + "/index.html?enable_sms=" + additionalInformation.get("enableSms")
+        loginInfoRespDto.setLoginPage(authServerAddressClientAccess + "/index.html?enable_sms=" + additionalInformation.get("enableSms")
             + "&enable_mail=" + additionalInformation.get("enableMail"));
-        loginInfoRespDto.setUserCenterPage(authServerAddress + "/index.html#/usermgmt/center");
+        loginInfoRespDto.setUserCenterPage(authServerAddressClientAccess + "/index.html#/usermgmt/center");
         if (additionalInformation.containsKey("pwmodiscene")) {
-            loginInfoRespDto.setForceModifyPwPage(authServerAddress + "/index.html#/usermgmt/forcemodifypwd");
+            loginInfoRespDto.setForceModifyPwPage(authServerAddressClientAccess + "/index.html#/usermgmt/forcemodifypwd");
         }
         loginInfoRespDto.setAuthorities(additionalInformation.get("authorities"));
         loginInfoRespDto.setSessId(request.getSession().getId());
