@@ -41,7 +41,7 @@ public class HttpTraceLogFilter extends OncePerRequestFilter implements Ordered 
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpTraceLogFilter.class);
 
     private static final String[] urlPatterns = {"/login", "/logout", "/auth/", "/mec-appstore/", "/mec-developer/",
-        "/mec-atp/", "/mec-lab/", "/mecm-inventory/", "/mecm-appo/", "/mecm-apm/", "/third-system/"};
+        "/mec-atp/", "/mec-lab/", "/mecm-inventory/", "/mecm-appo/", "/mecm-apm/", "/mec-thirdsystem/"};
 
     @Override
     public int getOrder() {
