@@ -15,6 +15,7 @@
 
 zuul:
   routes:
+    user-mgmt-be: /mec-usermgmt/**
     mec-developer: /mec-developer/**
     mec-appstore: /mec-appstore/**
     mec-atp: /mec-atp/**

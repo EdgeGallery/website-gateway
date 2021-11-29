@@ -52,6 +52,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.util.StringUtils;
 import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 @Configuration
@@ -154,11 +155,20 @@ public class ClientWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
             @Override
             public Object run() {
                 try {
-                    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                    OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) authentication.getDetails();
-                    String accessToken = details.getTokenValue();
                     RequestContext ctx = RequestContext.getCurrentContext();
-                    ctx.addZuulRequestHeader("access_token", accessToken);
+                    HttpServletRequest httpServletRequest = ctx.getRequest();
+
+                    String accessToken = null;
+                    String northApiAccessToken = httpServletRequest.getHeader(Consts.HEADER_NORTHAPI_ACCESS_TOKEN);
+                    if (!StringUtils.isEmpty(northApiAccessToken)) {
+                        accessToken = northApiAccessToken;
+                    } else {
+                        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                        OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) authentication.getDetails();
+                        accessToken = details.getTokenValue();
+                    }
+
+                    ctx.addZuulRequestHeader(Consts.HEADER_ACCESS_TOKEN, accessToken);
                 } catch (Exception e) {
                     LOGGER.warn("there will be a exception when permit all roles to access the api. no need to fix it.");
                     return null;

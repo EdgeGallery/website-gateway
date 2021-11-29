@@ -29,6 +29,14 @@ public class Consts {
      */
     public static final long ADV_NOTIFY_TIME_FOR_HTTP_SESSION_TIMEOUT = 60;
     /**
+     * request header for access token.
+     */
+    public static final String HEADER_ACCESS_TOKEN = "access_token";
+    /**
+     * north api request header for access token.
+     */
+    public static final String HEADER_NORTHAPI_ACCESS_TOKEN = "N_ACCESS_TOKEN";
+    /**
      * http session invalid scene.
      */
     public static final class HttpSessionInvalidScene {
