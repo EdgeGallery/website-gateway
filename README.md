@@ -19,7 +19,7 @@ Website-gateway用来封装EdgeGallery各业务平台的前台服务，主要提
     - CLIENT_SECRET: 待启动前台服务的密钥。需要与User Management服务中配置的oauth2.clients.clientSecret保持一致
     - AUTH_SERVER_ADDRESS: User Management服务的URL，如http://x.x.x.x:8067
     - AUTH_SERVER_ADDRESS_CLIENTACCESS: 通过浏览器访问User Management的URL，正常访问模式下与AUTH_SERVER_ADDRESS一致。（代理访问模式下该配置与
-AUTH_SERVER_ADDRESS不同，参考链接[https://gitee.com/edgegallery/installer/blob/master/ansible_install/EdgeGallery_ProxyAccessConfig_Guide-cn.md](https://gitee.com/edgegallery/installer/blob/master/ansible_install/EdgeGallery_ProxyAccessConfig_Guide-cn.md)）
+AUTH_SERVER_ADDRESS不同，参考链接[通过代理访问EdgeGallery配置](https://gitee.com/edgegallery/installer/blob/master/ansible_install/EdgeGallery_ProxyAccessConfig_Guide-cn.md)
     - COOKIE_NAME：为对应业务前台定义的SESSION ID，例如AppStore的SESSIONID名称为APPSTORESESSIONID。也可以不配置，使用默认的JSESSIONID。
 ```
 
