@@ -13,7 +13,7 @@ Website-gateway用来封装EdgeGallery各业务平台的前台服务，主要提
 - 1 编译业务前台代码，将dist目录中的内容复制到Website-gateway的/src/main/resource/static中
 
 - 2 本地启动时需配置如下环境变量：
-```
+
     - SC_ADDRESS：连接SC的地址。本地运行的SC默认为：http://127.0.0.1:30100
     - CLIENT_ID: 待启动前台服务的ID。需要与User Management服务中配置的oauth2.clients.clientId保持一致
     - CLIENT_SECRET: 待启动前台服务的密钥。需要与User Management服务中配置的oauth2.clients.clientSecret保持一致
@@ -21,7 +21,7 @@ Website-gateway用来封装EdgeGallery各业务平台的前台服务，主要提
     - AUTH_SERVER_ADDRESS_CLIENTACCESS: 通过浏览器访问User Management的URL，正常访问模式下与AUTH_SERVER_ADDRESS一致。（代理访问模式下该配置与
 AUTH_SERVER_ADDRESS不同，参考链接[通过代理访问EdgeGallery配置](https://gitee.com/edgegallery/installer/blob/master/ansible_install/EdgeGallery_ProxyAccessConfig_Guide-cn.md)
     - COOKIE_NAME：为对应业务前台定义的SESSION ID，例如AppStore的SESSIONID名称为APPSTORESESSIONID。也可以不配置，使用默认的JSESSIONID。
-```
+
 
 ## Use RateLimit-zuul to limit API
 
