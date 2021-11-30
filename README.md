@@ -18,16 +18,19 @@ Website-gateway用来封装EdgeGallery各业务平台的前台服务，主要提
     - CLIENT_ID: 待启动前台服务的ID。需要与User Management服务中配置的oauth2.clients.clientId保持一致
     - CLIENT_SECRET: 待启动前台服务的密钥。需要与User Management服务中配置的oauth2.clients.clientSecret保持一致
     - AUTH_SERVER_ADDRESS: User Management服务的URL，如http://x.x.x.x:8067
-    - AUTH_SERVER_ADDRESS_CLIENTACCESS: 通过浏览器访问User Management的URL，正常访问模式下与AUTH_SERVER_ADDRESS一致。（代理访问模式下该配置与
-AUTH_SERVER_ADDRESS不同，参考：[通过代理访问EdgeGallery配置](https://gitee.com/edgegallery/installer/blob/master/ansible_install/EdgeGallery_ProxyAccessConfig_Guide-cn.md)
-    - COOKIE_NAME：为对应业务前台定义的SESSION ID，例如AppStore的SESSIONID名称为APPSTORESESSIONID。也可以不配置，使用默认的JSESSIONID。
+    - AUTH_SERVER_ADDRESS_CLIENTACCESS: 该配置是为代理访问模式定义的变量。正常访问模式下，与AUTH_SERVER_ADDRESS保持一致即可
+    - COOKIE_NAME：为对应业务前台定义的SESSION ID，例如AppStore的SESSIONID名称为APPSTORESESSIONID。也可以不配置，使用默认的JSESSIONID
 
+- 3 本地启动：
+
+    运行/src/main/java/org/edgegallery/website/GatewayApplication.java文件中的main函数就能启动对应的业务前台。
 
 ## Use RateLimit-zuul to limit API
 
 ```yaml
 zuul:
   routes:
+    user-mgmt-be: /mec-usermgmt/**
     mec-developer: /mec-developer/**
     mec-appstore: /mec-appstore/**
     mec-atp: /mec-atp/**
@@ -35,6 +38,7 @@ zuul:
     mecm-inventory: /mecm-inventory/**
     mecm-appo: /mecm-appo/**
     mecm-apm: /mecm-apm/**
+    mec-thirdsystem: /mec-thirdsystem/**
   sensitive-headers:
   ratelimit:
     enabled: true
