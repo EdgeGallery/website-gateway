@@ -35,7 +35,7 @@ public class Consts {
     /**
      * north api request header for access token.
      */
-    public static final String HEADER_NORTHAPI_ACCESS_TOKEN = "N_ACCESS_TOKEN";
+    public static final String HEADER_NORTHAPI_ACCESS_TOKEN = "X-ACCESS-TOKEN";
     /**
      * http session invalid scene.
      */
