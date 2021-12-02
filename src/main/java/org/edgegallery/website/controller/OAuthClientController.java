@@ -64,8 +64,16 @@ public class OAuthClientController {
         loginInfoRespDto.setAccessToken(details.getTokenValue());
         loginInfoRespDto.setIsSecureBackend(isSecureBackend);
         loginInfoRespDto.setUserName(additionalInformation.get("userName"));
-        loginInfoRespDto.setLoginPage(authServerAddressClientAccess + "/index.html?enable_sms=" + additionalInformation.get("enableSms")
-            + "&enable_mail=" + additionalInformation.get("enableMail"));
+
+        StringBuilder loginPage = new StringBuilder(authServerAddressClientAccess);
+        loginPage.append("/index.html?enable_sms=")
+            .append(additionalInformation.get("enableSms"))
+            .append("&enable_mail=")
+            .append(additionalInformation.get("enableMail"))
+            .append("&enable_external_iam=")
+            .append(additionalInformation.get("enableExternalIam"));
+        loginInfoRespDto.setLoginPage(loginPage.toString());
+
         loginInfoRespDto.setUserCenterPage(authServerAddressClientAccess + "/index.html#/usermgmt/center");
         if (additionalInformation.containsKey("pwmodiscene")) {
             loginInfoRespDto.setForceModifyPwPage(authServerAddressClientAccess + "/index.html#/usermgmt/forcemodifypwd");
