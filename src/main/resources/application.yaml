@@ -20,6 +20,7 @@ zuul:
     mec-appstore: /mec-appstore/**
     mec-atp: /mec-atp/**
     mec-lab: /mec-lab/**
+    app-mgmt: /app-mgmt/**
     mecm-inventory: /mecm-inventory/**
     mecm-appo: /mecm-appo/**
     mecm-apm: /mecm-apm/**
