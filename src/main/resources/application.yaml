@@ -24,6 +24,7 @@ zuul:
     mecm-appo: /mecm-appo/**
     mecm-apm: /mecm-apm/**
     mec-thirdsystem: /mec-thirdsystem/**
+    app-mgmt: /app-mgmt/**
   sensitive-headers:
   ratelimit:
     enabled: true
