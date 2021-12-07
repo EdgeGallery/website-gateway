@@ -38,6 +38,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -65,6 +66,7 @@ public class TestOAuthClientController {
 
     @Test
     public void should_successfully_when_get_login_info() throws Exception {
+        ReflectionTestUtils.setField(oAuthClientController, "authServerAddressClientAccess", "http://127.0.0.1:8080");
         OAuth2AccessToken token = new OAuth2AccessToken() {
             @Override
             public Map<String, Object> getAdditionalInformation() {
@@ -116,7 +118,7 @@ public class TestOAuthClientController {
     @Test
     public void should_successfully_when_logout() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/auth/logout").contentType(MediaType.APPLICATION_JSON_VALUE)
-            .header("ssoSessionId", "test_sso_session_id")
-            .accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(MockMvcResultMatchers.status().isOk());
+            .header("ssoSessionId", "test_sso_session_id").accept(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }
