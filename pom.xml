@@ -36,6 +36,7 @@
         <spring-security-jwt.version>1.1.1.RELEASE</spring-security-jwt.version>
         <spring-security-oauth2-autoconfigure.version>2.2.2.RELEASE</spring-security-oauth2-autoconfigure.version>
         <tomcat.embed.version>9.0.44</tomcat.embed.version>
+        <log4j.verison>2.17.0</log4j.verison>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -276,12 +277,12 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.15.0</version>
+            <version>${log4j.verison}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.15.0</version>
+            <version>${log4j.verison}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -290,7 +291,7 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
-            <version>2.15.0</version>
+            <version>${log4j.verison}</version>
         </dependency>
 
         <!-- unit test -->
