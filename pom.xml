@@ -36,7 +36,7 @@
         <spring-security-jwt.version>1.1.1.RELEASE</spring-security-jwt.version>
         <spring-security-oauth2-autoconfigure.version>2.2.2.RELEASE</spring-security-oauth2-autoconfigure.version>
         <tomcat.embed.version>9.0.56</tomcat.embed.version>
-        <log4j.version>2.17.0</log4j.version>
+        <log4j.version>2.17.1</log4j.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -68,6 +68,7 @@
         <dependency>
             <groupId>org.apache.servicecomb</groupId>
             <artifactId>spring-boot2-starter-servlet</artifactId>
+            <version>1.3.6</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
@@ -217,6 +218,10 @@
                     <groupId>log4j</groupId>
                     <artifactId>log4j</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>io.vertx</groupId>
+                    <artifactId>vertx-bridge-common</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -352,6 +357,11 @@
             <artifactId>vertx-core</artifactId>
             <groupId>io.vertx</groupId>
             <version>3.9.12</version>
+        </dependency>
+        <dependency>
+            <artifactId>netty-transport</artifactId>
+            <groupId>io.netty</groupId>
+            <version>4.1.72.Final</version>
         </dependency>
     </dependencies>
 
