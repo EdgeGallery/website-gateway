@@ -40,4 +40,4 @@ COPY --chown=$USER_NAME:$GROUP_NAME target/classes/i18n /usr/app/resources/i18n
 WORKDIR $APP_HOME
 
 ENTRYPOINT ["sh", "-c"]
-CMD ["exec java -Xms1024m -Xmx1024m -Xmn700m -Xss2m -cp ./configs:$APP_FILE org.springframework.boot.loader.JarLauncher"]
+CMD ["exec java -cp ./configs:$APP_FILE org.springframework.boot.loader.JarLauncher"]
