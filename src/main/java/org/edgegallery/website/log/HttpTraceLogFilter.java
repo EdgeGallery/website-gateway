@@ -1,5 +1,5 @@
 /*
- *  Copyright 2020 Huawei Technologies Co., Ltd.
+ *  Copyright 2020-2022 Huawei Technologies Co., Ltd.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -31,9 +31,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.util.ContentCachingRequestWrapper;
-import org.springframework.web.util.ContentCachingResponseWrapper;
-import org.springframework.web.util.WebUtils;
 
 @Component
 public class HttpTraceLogFilter extends OncePerRequestFilter implements Ordered {
@@ -58,21 +55,13 @@ public class HttpTraceLogFilter extends OncePerRequestFilter implements Ordered 
             filterChain.doFilter(request, response);
             return;
         }
-        if (!(request instanceof ContentCachingRequestWrapper)) {
-            request = new ContentCachingRequestWrapper(request);
-        }
-        if (!(response instanceof ContentCachingResponseWrapper)) {
-            response = new ContentCachingResponseWrapper(response);
-        }
-
-        HttpRequestLog logs = new HttpRequestLog();
+        HttpRequestLog requestLog = new HttpRequestLog();
         try {
-            logs.setRequest(logForRequest(request));
+            requestLog.setRequestLog(logForRequest(request));
             filterChain.doFilter(request, response);
         } finally {
-            logs.setResponse(logForResponse(response));
-            updateResponse(response);
-            LOGGER.info("Http Request log: {}", new Gson().toJson(logs));
+            requestLog.setResponseLog(logForResponse(response));
+            LOGGER.info("Http trace log: {}", new Gson().toJson(requestLog));
         }
     }
 
@@ -110,20 +99,12 @@ public class HttpTraceLogFilter extends OncePerRequestFilter implements Ordered 
         return ip;
     }
 
-    private void updateResponse(HttpServletResponse response) throws IOException {
-        ContentCachingResponseWrapper responseWrapper = WebUtils
-            .getNativeResponse(response, ContentCachingResponseWrapper.class);
-        if (responseWrapper != null) {
-            responseWrapper.copyBodyToResponse();
-        }
-    }
-
     @Setter
     @Getter
     private static class HttpRequestLog {
-        HttpRequestTraceLog request;
+        HttpRequestTraceLog requestLog;
 
-        HttpResponseTraceLog response;
+        HttpResponseTraceLog responseLog;
     }
 
     @Setter
@@ -148,7 +129,5 @@ public class HttpTraceLogFilter extends OncePerRequestFilter implements Ordered 
         private Integer status;
 
         private String time;
-
-        private String body;
     }
 }
