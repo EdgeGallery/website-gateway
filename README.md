@@ -38,6 +38,7 @@ zuul:
     mecm-inventory: /mecm-inventory/**
     mecm-appo: /mecm-appo/**
     mecm-apm: /mecm-apm/**
+    mecm-north: /mecm-north/**
     mec-thirdsystem: /mec-thirdsystem/**
   sensitive-headers:
   ratelimit:
