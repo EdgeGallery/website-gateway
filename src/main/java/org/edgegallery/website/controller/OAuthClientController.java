@@ -24,6 +24,8 @@ import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.servicecomb.provider.rest.common.RestSchema;
 import org.edgegallery.website.model.LoginInfoRespDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -36,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RestSchema(schemaId = "auth")
 @RequestMapping("/auth")
 public class OAuthClientController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(OAuthClientController.class);
 
     @Autowired
     JwtServer jwtServer;
@@ -57,6 +60,8 @@ public class OAuthClientController {
         notes = "The API can " + "receive the get user information request")
     public ResponseEntity<LoginInfoRespDto> getLoginInfo(HttpServletRequest request) {
         OAuth2AuthenticationDetails details = jwtServer.getAuthDetails();
+        LOGGER.info("sessIdFromReq = {}, sessIdFromDetail = {}, tokenValue = {}",
+            request.getSession().getId(), details.getSessionId(), details.getTokenValue());
         Map<String, Object> additionalInformation = jwtServer.getToken(details.getTokenValue())
             .getAdditionalInformation();
         LoginInfoRespDto loginInfoRespDto = new LoginInfoRespDto();
